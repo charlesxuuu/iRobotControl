@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#12  Oct 2016
+#23  Oct 2016
 
 ###########################################################################
 # Copyright (c) 2015 iRobot Corporation
@@ -96,7 +96,14 @@ except ImportError:
     tkMessageBox.showerror('Import error', 'Please install pyserial.')
     raise
 
-connection = None
+# Set host IP and ser2net port here
+
+host = "192.168.1.10"
+port = "19910"
+
+# Set streaming port here
+streamport = "8554"
+
 telnetconnection = None
 
 TEXTWIDTH = 40 # window width, in characters
@@ -132,10 +139,9 @@ class TetheredDriveApp(Tk):
     callbackKeyLastDriveCommand = ''
 
     def __init__(self):
-	global connection
 	global telnetconnection
         Tk.__init__(self)
-        self.title("iRobot Create 2 Tethered Drive")
+        self.title("iRobot Create 2 Tethered Drive and Stream")
         self.option_add('*tearOff', FALSE)
 
         self.menubar = Menu()
@@ -143,8 +149,6 @@ class TetheredDriveApp(Tk):
 
         createMenu = Menu(self.menubar, tearoff=False)
         self.menubar.add_cascade(label="Create", menu=createMenu)
-
-        createMenu.add_command(label="Connect", command=self.onConnect)
         createMenu.add_command(label="Help", command=self.onHelp)
         createMenu.add_command(label="Quit", command=self.onQuit)
 
@@ -160,23 +164,16 @@ class TetheredDriveApp(Tk):
         self.bind("<KeyRelease>", self.callbackKey)
 
 	#port = '/dev/ttyUSB0'
-	host = "192.168.1.10"
-	port = "19910"
+	#host = "192.168.1.10"
+	#port = "19910"
 
-	telnetconnection = telnetlib.Telnet()
-	telnetconnection.open(host, 19910)
-	print "Connected"+str(telnetconnection.fileno())
-
-        #print "Trying default" + str(port) + "... "
-        #try:
-        #	connection = serial.Serial(port, baudrate=115200, timeout=1)
-        #       print "Connected!"
-        #        tkMessageBox.showinfo('Connected', "Connection succeeded!")
-        #except:
-        #       print "Failed."
-        #       tkMessageBox.showinfo('Failed', "Sorry, couldn't connect to " + str(port))
-
-
+	try:
+		telnetconnection = telnetlib.Telnet()
+		telnetconnection.open(host, port)
+		print "Connected "+str(telnetconnection.fileno())
+        except:
+               print "Failed."
+               tkMessageBox.showinfo('Failed', "Sorry, couldn't connect to " + str(port))
 
 
     # sendCommandASCII takes a string of whitespace-separated, ASCII-encoded base 10 values to send
@@ -189,19 +186,13 @@ class TetheredDriveApp(Tk):
 
     # sendCommandRaw takes a string interpreted as a byte array
     def sendCommandRaw(self, command):
-        global connection
 	global telnetconnection
-
 
         if telnetconnection is not None:
         	telnetconnection.write(command)
         else:
         	tkMessageBox.showerror('Not connected!', 'Not connected to a robot!')
                 print "Not connected."
-        #except serial.SerialException:
-        #    print "Lost connection"
-        #    tkMessageBox.showinfo('Uh-oh', "Lost connection to the robot!")
-        #    telnetconnection = None
 
         print ' '.join([ str(ord(c)) for c in command ])
         self.text.insert(END, ' '.join([ str(ord(c)) for c in command ]))
@@ -212,14 +203,8 @@ class TetheredDriveApp(Tk):
     # Whether it blocks is based on how the connection was set up.
     def getDecodedBytes(self, n, fmt):
         global telnetconnection
-        #####-----chix
         try:
             return struct.unpack(fmt, telnetconnection.read(n))[0]
-        #except serial.SerialException:
-        #    print "Lost connection"
-        #    tkMessageBox.showinfo('Uh-oh', "Lost connection to the robot!")
-        #    connection = None
-        #    return None
         except struct.error:
             print "Got unexpected data from serial port."
             return None
@@ -242,12 +227,12 @@ class TetheredDriveApp(Tk):
 
     # A handler for keyboard events. Feel free to add more!
     def callbackKey(self, event):
+	global VELOCITYCHANGE
+	global ROTATIONCHANGE  
         k = event.keysym.upper()
         motionChange = False
 	accerChange = False
-	global VELOCITYCHANGE
-	global ROTATIONCHANGE        
-
+      
 	if event.type == '2': # KeyPress; need to figure out how to get constant
             if k == 'P':   # Passive
                 self.sendCommandASCII('128')
@@ -335,30 +320,6 @@ class TetheredDriveApp(Tk):
             if cmd != self.callbackKeyLastDriveCommand:
                 self.sendCommandRaw(cmd)
                 self.callbackKeyLastDriveCommand = cmd
-
-    def onConnect(self):
-        global telnetconnection
-
-        if telnetconnection is not None:
-            tkMessageBox.showinfo('Oops', "You're already connected!")
-            return
-#
-#        try:
-#            ports = self.getSerialPorts()
-#            port = tkSimpleDialog.askstring('Port?', 'Enter COM port to open.\nAvailable options:\n' + '\n'.join(ports))
-#        except EnvironmentError:
-#            port = tkSimpleDialog.askstring('Port?', 'Enter COM port to open.')
-
-#        if port is not None:
-#            print "Trying " + str(port) + "... "
-#            try:
-#                connection = serial.Serial(port, baudrate=115200, timeout=1)
-#                print "Connected!"
-#                tkMessageBox.showinfo('Connected', "Connection succeeded!")
-#            except:
-#                print "Failed."
-#                tkMessageBox.showinfo('Failed', "Sorry, couldn't connect to " + str(port))
-
 
     def onHelp(self):
         tkMessageBox.showinfo('Help', helpText)
