@@ -86,6 +86,7 @@ import tkMessageBox
 import tkSimpleDialog
 
 import os
+import spur
 import struct
 import sys, glob # for listing serial ports
 import getpass, telnetlib #for telnet
@@ -100,6 +101,8 @@ except ImportError:
 
 host = "192.168.1.10"
 port = "19910"
+username = "pi"
+password = "raspberry"
 
 # Set streaming port here
 streamport = "8554"
@@ -328,7 +331,9 @@ class TetheredDriveApp(Tk):
 
 
 if __name__ == "__main__":
-    cmd = "cvlc --no-audio v4l2:///dev/video0 --v4l2-width 1920 --v4l2-height 1080 --v4l2-chroma MJPG --v4l2-hflip 1 --v4l2-vflip 1 --sout '#standard{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:8554/}' -I dummy &"
+    cmd = "cvlc --no-audio v4l2:///dev/video0 --v4l2-width 1920 --v4l2-height 1080 --v4l2-chroma MJPG --v4l2-hflip 1 --v4l2-vflip 1 --sout '#standard{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:8554/}' -I dummy"
+    shell = spur.SshShell(host,username,password)
+    shell.spawn(["sh","-c",cmd])
     #os.system(cmd)
     app = TetheredDriveApp()
     app.mainloop()
