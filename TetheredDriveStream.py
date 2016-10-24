@@ -163,14 +163,12 @@ class TetheredDriveApp(Tk):
         self.bind("<Key>", self.callbackKey)
         self.bind("<KeyRelease>", self.callbackKey)
 
-	#port = '/dev/ttyUSB0'
-	#host = "192.168.1.10"
-	#port = "19910"
 
 	try:
+		print "Trying to connect" + host +":" +port
 		telnetconnection = telnetlib.Telnet()
 		telnetconnection.open(host, port)
-		print "Connected "+str(telnetconnection.fileno())
+		print "Connected. fileno:"+str(telnetconnection.fileno())
         except:
                print "Failed."
                tkMessageBox.showinfo('Failed', "Sorry, couldn't connect to " + str(port))
