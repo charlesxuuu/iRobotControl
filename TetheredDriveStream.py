@@ -165,7 +165,7 @@ class TetheredDriveApp(Tk):
 
 
 	try:
-		print "Trying to connect" + host +":" +port
+		print "Trying to connect " + host +":" +port
 		telnetconnection = telnetlib.Telnet()
 		telnetconnection.open(host, port)
 		print "Connected. fileno:"+str(telnetconnection.fileno())
