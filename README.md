@@ -46,7 +46,7 @@ The original tethered driving code works well for directly operate on Raspberry 
    then you can access the video stream by http://localhost:8554/
 
 ## TODO: 
-   
+   A fully automatic setup script
  
 ## Tested Environments
    1. iRobot Create 2 
