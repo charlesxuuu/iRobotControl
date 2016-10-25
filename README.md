@@ -33,7 +33,8 @@ The original tethered driving code works well for directly operate on Raspberry 
    ```Bash
    $ sudo apt-get install vlc
    ```
-   it needs to install video4linux2 
+   It needs to install video4linux2. 
+
    Initiate vlc streaming from USB camera: 
    ```Bash
    $cvlc --no-audio v4l2:///dev/video0 \ 
