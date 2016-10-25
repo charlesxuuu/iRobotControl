@@ -1,8 +1,8 @@
 # iRobotControl
-===============
+----------------
 The original tethered driving code works well for directly operate on Raspberry Pi + iRobot Create. However, I still found a little bit inconvenience since I cannot remotely ssh to my Raspberry Pi and then use the python code to drive. This is because the GTinker implementation and the ssh environment cannot directly offload the keyboard event. So I made a few changes on the original code.
 
-================
+----------------
 ## Enhanced Features: 
  
 1. Implemented the speed up (Shift-L) and speed down(Crtl-L) function. 
@@ -43,12 +43,13 @@ The original tethered driving code works well for directly operate on Raspberry 
    $boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:8554/}' \  
    $-I dummy 
    ```
+   then you can access the video stream by http://localhost:8554/
 
 ## TODO: 
    
  
 ## Tested Environments
-    1. iRobot Create 2 
-    2. Linux raspberrypi 4.4.11-v7+ 
+   1. iRobot Create 2 
+   2. Linux raspberrypi 4.4.11-v7+ 
    
 ####         Charles Xu (xuchi.int@gmail.com)
