@@ -1,23 +1,26 @@
 # iRobotControl
+ ****
+===============
+The original tethered driving code works well for directly operate on Raspberry Pi + iRobot Create. However, I still found a little bit inconvenience since I cannot remotely ssh to my Raspberry Pi and then use the python code to drive. This is because the GTinker implementation and the ssh environment cannot directly offload the keyboard event. So I made a few changes on the original code.
 
-
-The original tethered driving code works well for raspberry pi + irobot create. A few enhanced features: <br>
+================
+A few enhanced features: <br>
  
-   1. Implemented the speed up (Shift-L) and speed down(Crtl-L) function. <br>
-   (P.S. a Need for Speed fan.) <br>
+1. Implemented the speed up (Shift-L) and speed down(Crtl-L) function. <br>
+    (P.S. a Need for Speed fan.) <br>
   
-   2. For the Raspberry Pi, you can open a socket and connected it with the serial port with ser2net service.<br>
-   You can get it by running:<br>
-   $sudo apt-get install ser2net <br>
-   Then configure the IP address and port number by adding :<br>
-   $sudo vim /etc/ser2net.conf<br>
-   add the following line in ser2net.conf:<br>
-   19910:telnet:14400:/dev/ttyUSB0:115200 8DATABITS NONE 1STOPBIT LOCAL banner<br>
-   This maps the /dev/ttyUSB0 to the socket with port number 19910 <br>
-   then restart the ser2net service<br>
-   $sudo service ser2net restart<br>
+2. For the Raspberry Pi, you can open a socket and connected it with the serial port with ser2net service.<br>
+    You can get it by running:<br>
+    $sudo apt-get install ser2net <br>
+    Then configure the IP address and port number by adding :<br>
+    $sudo vim /etc/ser2net.conf<br>
+    add the following line in ser2net.conf:<br>
+    19910:telnet:14400:/dev/ttyUSB0:115200 8DATABITS NONE 1STOPBIT LOCAL banner<br>
+    This maps the /dev/ttyUSB0 to the socket with port number 19910 <br>
+    then restart the ser2net service<br>
+    $sudo service ser2net restart<br>
     
-   3. USB camera for streaming:<br>
+3. USB camera for streaming:<br>
    Install vlc by<br>
    $ sudo apt-get install vlc<br>
    it needs to install video4linux2 <br>
@@ -29,11 +32,11 @@ The original tethered driving code works well for raspberry pi + irobot create. 
    $boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:8554/}' \  <br>
    $-I dummy  <br>
 
-   TODO: <br><br><br>
+TODO: 
    
  
-    Tested envionments: <br>
-    1. iRobot Create 2 <br>
+    Tested envionments: 
+    1. iRobot Create 2 
     2. Linux raspberrypi 4.4.11-v7+ <br>
    
     --Charles Xu (xuchi.int@gmail.com)
