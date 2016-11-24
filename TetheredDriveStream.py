@@ -107,14 +107,14 @@ password = "raspberry"
 # Set streaming port here
 streamport = "8554"
 
-telnetconnection = None
+connection = None
 
 TEXTWIDTH = 40 # window width, in characters
 TEXTHEIGHT = 16 # window height, in lines
 
-VELOCITYCHANGE = 200
+VELOCITYCHANGE = 100
 ACVECHANGE = 50
-ROTATIONCHANGE = 200
+ROTATIONCHANGE = 100
 ACROCHANGE = 50
 
 helpText = """\
@@ -142,7 +142,7 @@ class TetheredDriveApp(Tk):
     callbackKeyLastDriveCommand = ''
 
     def __init__(self):
-	global telnetconnection
+	global connection
         Tk.__init__(self)
         self.title("iRobot Create 2 Tethered Drive and Stream")
         self.option_add('*tearOff', FALSE)
@@ -187,7 +187,7 @@ class TetheredDriveApp(Tk):
 
     # sendCommandRaw takes a string interpreted as a byte array
     def sendCommandRaw(self, command):
-	global telnetconnection
+	global connection
 
         if telnetconnection is not None:
         	telnetconnection.write(command)
@@ -203,7 +203,7 @@ class TetheredDriveApp(Tk):
     # getDecodedBytes returns a n-byte value decoded using a format string.
     # Whether it blocks is based on how the connection was set up.
     def getDecodedBytes(self, n, fmt):
-        global telnetconnection
+        global connection
         try:
             return struct.unpack(fmt, telnetconnection.read(n))[0]
         except struct.error:
