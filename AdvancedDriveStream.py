@@ -243,22 +243,22 @@ class TetheredDriveApp(Tk):
         self.motion_value = StringVar()
         self.motion_box = ttk.Combobox(self.param2_frame, textvariable=self.motion_value)
         self.motion_box['values'] = ('Cycle', 'Straight', 'Turn', 'Planned path')
-        self.motion_box.current(0)
+        #self.motion_box.current(0)
         self.motion_box.grid(row=1, column=1)
         self.motion_box.bind("<<ComboboxSelected>>", self.newMotionSelection)
 
 
-        self.speed_text = Label(self.param2_frame, text="Speed (mm/s)")
+        self.speed_text = Label(self.param2_frame, text="Speed (mm/s)", width=12)
         self.speed_text.grid(row=2)
         self.speed_input = Entry(self.param2_frame, bd=5)
         self.speed_input.grid(row=2, column=1)
 
-        self.rotation_text = Label(self.param2_frame, text=" Radius (mm)")
+        self.rotation_text = Label(self.param2_frame, text=" Radius (mm)", width=12)
         self.rotation_text.grid(row=3)
         self.rotation_input = Entry(self.param2_frame, bd=5)
         self.rotation_input.grid(row=3, column=1)
 
-        self.time_text = Label(self.param2_frame, text="  Time (s) ")
+        self.time_text = Label(self.param2_frame, text="  Time (s) ", width=12)
         self.time_text.grid(row=4)
         self.time_input = Entry(self.param2_frame, bd=5)
         self.time_input.grid(row=4, column=1)
@@ -273,14 +273,15 @@ class TetheredDriveApp(Tk):
         self.stopmanual_button.pack(side=LEFT, padx=5, pady=2)
 
 
-        self.log_frame = Frame(self)
-        self.log_frame.grid(column=1,row=0,rowspan=2,sticky=W+E+N+S)
+        self.log_frame = Frame(self, width=800)
+        self.log_frame.grid(column=1,row=0, rowspan=2,sticky=W+E+N+S)
 
         self.logtext = Label(self.log_frame, text="Log")
         self.logtext.pack(side=TOP)
 
 
-        self.log = Text(self.log_frame, height=TEXTHEIGHT, width=TEXTWIDTH, wrap=WORD)
+        #self.log = Text(self.log_frame, height=TEXTHEIGHT, width=TEXTWIDTH, wrap=WORD)
+        self.log = Text(self.log_frame, height=20, width=100, wrap=WORD)
         self.scroll = Scrollbar(self.log_frame, command=self.log.yview)
         self.log.configure(yscrollcommand=self.scroll.set)
         self.log.pack(side=LEFT, fill=BOTH, expand=True)
@@ -722,21 +723,30 @@ class TetheredDriveApp(Tk):
             self.speed_text['text']="Speed (mm/s)"
             self.rotation_text['text']=" Radius (mm)"
             self.time_text['text']="  Time (s) "
+            self.log.insert(END, "Speed: -500 to +500\nRadius: -2000 to 2000\nTime: equal or greater than 0\n\n")
+            self.log.see(END)
+
 
         elif motion == "Straight" :
             self.speed_text['text']="Speed (mm/s)"
             self.rotation_text['text']="    Null    "
             self.time_text['text']="  Time (s) "
+            self.log.insert(END, "Speed: -500 to +500\nTime: equal or greater than 0\n\n")
+            self.log.see(END)
 
         elif motion =="Turn" :
             self.speed_text['text']="Speed (mm/s)"
             self.rotation_text['text']=" Direction  "
             self.time_text['text']="  Time (s) "
+            self.log.insert(END, "Speed: -500 to +500\nDirection: -1 (counterclockwise) or +1 (clockwise)\nTime: equal or greater than 0\n\n")
+            self.log.see(END)
 
         elif motion =="Planned path":
             self.speed_text['text']="     File path    "
             self.rotation_text['text'] = "    Null    "
             self.time_text['text'] = "    Null    "
+            self.log.insert(END, "Not implemented\n\n")
+            self.log.see(END)
 
     def onHelp(self):
         tkMessageBox.showinfo('Help', helpText)
