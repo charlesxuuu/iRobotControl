@@ -183,7 +183,7 @@ class TetheredDriveApp(Tk):
         self.control_frame = Frame(self)
         self.control_frame.grid(row=0)
 
-        self.connection_text = Label(self.control_frame, text="Connection", font=("", 10))
+        self.connection_text = Label(self.control_frame, text="Connection")
         self.connection_text.pack(side=TOP)
         # Create arameter_frame inside control frame
         self.param_frame = Frame(self.control_frame)
@@ -231,7 +231,7 @@ class TetheredDriveApp(Tk):
         # Create Drive Frame
         self.plandrive_frame = Frame(self)
         self.plandrive_frame.grid(row=1)
-        self.connection_text = Label(self.plandrive_frame, text="Drive", font=("", 10))
+        self.connection_text = Label(self.plandrive_frame, text="Drive")
         self.connection_text.pack(side=TOP)
 
         # Create param2_frame inside control frame
@@ -274,9 +274,9 @@ class TetheredDriveApp(Tk):
 
 
         self.log_frame = Frame(self)
-        self.log_frame.grid(column=1,row=0,rowspan=2)
+        self.log_frame.grid(column=1,row=0,rowspan=2,sticky=W+E+N+S)
 
-        self.logtext = Label(self.log_frame, text="Log", font=("", 10))
+        self.logtext = Label(self.log_frame, text="Log")
         self.logtext.pack(side=TOP)
 
 
@@ -787,6 +787,7 @@ if __name__ == "__main__":
 
 
     app = TetheredDriveApp()
+    app.resizable(width=False,height=False)
     app.mainloop()
 
 
