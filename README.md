@@ -2,6 +2,9 @@
 ----------------
 The original tethered driving code works well for directly operate on Raspberry Pi + iRobot Create. However, I still found a little bit inconvenience since I cannot remotely ssh to my Raspberry Pi and then use the python code to drive. This is because the GTinker implementation and the ssh environment cannot directly offload the keyboard event. So I made a few changes on the original code.
 
+![Alt text](iRobotControl.png?raw=true "iRobotControl interface")
+
+
 ----------------
 ## Enhanced Features: 
  
