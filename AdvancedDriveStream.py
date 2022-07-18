@@ -4,7 +4,7 @@
 
 ###########################################################################
 # Copyright (c) 2015 iRobot Corporation
-# Copyright (c) 2016 Charles Xu
+# 2016 Charles Xu
 #
 # http://www.irobot.com/
 #
